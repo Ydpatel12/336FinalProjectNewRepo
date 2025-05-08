@@ -2,6 +2,8 @@ CREATE DATABASE IF NOT EXISTS 336AirlineProject;
 
 USE 336AirlineProject;
 
+DROP TABLE IF EXISTS Answer;
+DROP TABLE IF EXISTS Question;
 DROP TABLE IF EXISTS Bookings;
 DROP TABLE IF EXISTS Flight_Avalibility;
 DROP TABLE IF EXISTS Flight_Operating_Days;
@@ -219,6 +221,22 @@ Instance_ID INT,
 PRIMARY KEY (Account_Number, Instance_ID),
 FOREIGN KEY (Account_Number) REFERENCES Account(Account_Number) ON DELETE CASCADE,
 FOREIGN KEY (Instance_ID) REFERENCES Flight_Avalibility(Instance_ID)
+);
+
+CREATE TABLE Question (
+  Question_ID INT AUTO_INCREMENT PRIMARY KEY,
+  Asked_By    INT NOT NULL,      -- Account who asked
+  Text        TEXT NOT NULL,
+  FOREIGN KEY (Asked_By) REFERENCES Account(Account_Number)
+);
+
+CREATE TABLE Answer (
+  Answer_ID   INT AUTO_INCREMENT PRIMARY KEY,
+  Question_ID INT NOT NULL,
+  Answered_By INT NOT NULL,      -- Account who answered
+  Text        TEXT NOT NULL,
+  FOREIGN KEY (Question_ID) REFERENCES Question(Question_ID),
+  FOREIGN KEY (Answered_By) REFERENCES Account(Account_Number)
 );
 
 
